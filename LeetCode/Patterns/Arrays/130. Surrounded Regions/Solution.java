@@ -33,7 +33,7 @@ class Solution {
                 dfs(0, j, board, visited, delRow, delCol);
 
             if(visited[n - 1][j] == 0  &&  board[n - 1][j] == 'O')
-                dfs(m - 1, j, board, visited, delRow, delCol);
+                dfs(n - 1, j, board, visited, delRow, delCol);
         }
 
         for(int i=0;i<n;i++) {
@@ -41,7 +41,7 @@ class Solution {
                 dfs(i, 0, board, visited, delRow, delCol);
 
             if(visited[i][n - 1] == 0  &&  board[i][n - 1] == 'O')
-                dfs(i, n - 1, board, visited, delRow, delCol);
+                dfs(i, m - 1, board, visited, delRow, delCol);
         }
 
 
