@@ -1,58 +1,60 @@
-class Trible {
-    int first;
-    int second;
-    int distance;
+class Trivial {
+    int row;
+    int col;
+    int steps;
 
-    public Trible(int first , int second , int distance) {
-        this.first = first;
-        this.second = second;
-        this.distance = distance;
+    public Trivial(int row, int col, int steps) {
+        this.row = row;
+        this.col = col;
+        this.steps = steps;
     }
 }
 
 class Solution {
-    public int[][] updateMatrix(int[][] grid) {
-        int n = grid.length;
-        int m = grid[0].length;
+    public int[][] updateMatrix(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
 
-        int [][]visited = new int[n][m];
-        int [][]distance = new int[n][m];
-        Queue<Trible> queue = new LinkedList<>();
+        int[][] dist = new int[n][m];
+        boolean[][] visited = new boolean[n][m];
+        Queue<Trivial> queue = new LinkedList<>();
 
         for(int i=0;i<n;i++) {
             for(int j=0;j<m;j++) {
-                if(grid[i][j] == 0) {
-                    queue.offer(new Trible(i , j , 0));
-                    visited[i][j] = 1;
+                if(mat[i][j] == 0) {
+                    queue.offer(new Trivial(i, j, 0));
+                    visited[i][j] = true;
                 }
-                else 
-                    visited[i][j] = 0;
             }
         }
 
-
-        int []delRow = {-1 , 0 , 1 , 0};
-        int []delCol = {0 , 1 , 0 , -1};
+        int[] delRow = {-1, 0, 1, 0};
+        int[] delCol = {0, 1, 0, -1};
 
         while(!queue.isEmpty()) {
-            int row = queue.peek().first;
-            int col = queue.peek().second;
-            int steps = queue.peek().distance;
+            Trivial node = queue.poll();
 
-            queue.poll();
-            distance[row][col] = steps;
+            int row = node.row;
+            int col = node.col;
+            int steps = node.steps;
+
+            dist[row][col] = steps;
 
             for(int i=0;i<4;i++) {
-                int nRow = row + delRow[i];
-                int nCol = col + delCol[i];
+                int newRow = row + delRow[i];
+                int newCol = col + delCol[i];
 
-                if(nRow >= 0  &&  nRow < n  &&  nCol >= 0  &&  nCol < m  &&  visited[nRow][nCol] == 0){
-                    visited[nRow][nCol] = 1;
-                    queue.offer(new Trible(nRow , nCol , steps+1));
+                if(
+                    newRow >= 0  &&  newRow < n  &&
+                    newCol >= 0  &&  newCol < m  &&
+                    visited[newRow][newCol] == false
+                ) {
+                    visited[newRow][newCol] = true;
+                    queue.offer(new Trivial(newRow, newCol, steps + 1));
                 }
             }
         }
 
-        return distance;
+        return dist;
     }
 }
