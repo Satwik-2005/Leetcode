@@ -10,7 +10,7 @@ class Pair {
 
 class Solution {
 
-    static void bfs(int row , int col , int [][]visited , char [][]grid) {
+    private void bfs(int row , int col , int [][]visited , char [][]grid) {
         Queue<Pair> queue = new LinkedList<>();
 
         visited[row][col] = 1;
@@ -49,7 +49,7 @@ class Solution {
         int n = grid.length;
         int m = grid[0].length;
 
-        int [][]vis = new int[n][m];
+        int[][] vis = new int[n][m];
         int count = 0;
 
         for(int i=0;i<n;i++) {
