@@ -15,6 +15,8 @@ class Solution {
             int val = queue.poll();
             list.add(val);
             
+            
+            
             for(int it : adj.get(val)) {
                 if(visited[it] == false) {
                     queue.offer(it);
