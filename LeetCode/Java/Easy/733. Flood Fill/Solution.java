@@ -1,21 +1,17 @@
 class Solution {
 
-    static void dfs(int row , int col , int [][]finalColor , int [][]image , 
-                    int color , int []delRow , int []delCol , int location) {
-        
-
-        finalColor[row][col] = color;
-
-        int m = image.length;
-        int n = image[0].length;
+    private void dfs(int sr, int sc, int[][] image, int color, int n, int m, int[] delRow, int[] delCol, int ini) {
+        image[sr][sc] = color;
 
         for(int i=0;i<4;i++) {
-            int nRow = row + delRow[i];
-            int nCol = col + delCol[i];
+                int newRow = sr + delRow[i];
+                int newCol = sc + delCol[i];
 
-            if(nRow >= 0  &&  nRow <m  &&  nCol >= 0  &&  nCol < n 
-                &&  image[nRow][nCol] == location  &&  finalColor[nRow][nCol] != color)
-                    dfs(nRow , nCol , finalColor , image , color , delRow , delCol , location);
+                if(
+                    newRow >= 0  &&  newCol >= 0  &&  newRow < n  &&  newCol < m  &&
+                    image[newRow][newCol] == ini
+                )
+                    dfs(newRow, newCol, image, color, n, m, delRow, delCol, ini);
         }
     }
 
@@ -23,13 +19,16 @@ class Solution {
         int n = image.length;
         int m = image[0].length;
 
-        int [][]finalColor = image;
-        int location = image[sr][sc];
-        int []delRow = {-1 , 0 , 1 , 0};
-        int []delCol = {0 , 1 , 0 , -1};
+        int initialColor = image[sr][sc];
 
-        dfs(sr , sc , finalColor , image , color , delRow , delCol , location);
+        if(initialColor == color)
+            return image;
 
-        return finalColor;
+        int[] delRow = {-1, 0, 1, 0};
+        int[] delCol = {0, 1, 0, -1};
+
+        dfs(sr, sc, image, color, n, m, delRow, delCol, initialColor);
+
+        return image;
     }
 }
