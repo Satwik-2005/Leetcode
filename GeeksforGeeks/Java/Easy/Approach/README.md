@@ -1,0 +1,18 @@
+# 📝 Approach (GeeksforGeeks)
+
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/longest-path-in-a-directed-acyclic-graph/1)
+
+![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Language](https://img.shields.io/badge/Language-Java-blue)
+
+### 💡 Tags
+GFG Problem
+
+### 🚀 Performance
+- **Runtime:** Successfully Evaluated
+- **Memory:** N/A
+
+---
+
+### 📜 Problem Description
+
+Description not found
