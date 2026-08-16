@@ -11,8 +11,10 @@ class Solution {
         
         for(int it : adj.get(node)) {
             if(visited[it] == 0) {
-                if(dfs(it, adj, visited, pathVisited, check) == true)
+                if(dfs(it, adj, visited, pathVisited, check) == true) {
+                    check[node] = 0;
                     return true;
+                }
             }
             
             else if(pathVisited[it] == 1)
