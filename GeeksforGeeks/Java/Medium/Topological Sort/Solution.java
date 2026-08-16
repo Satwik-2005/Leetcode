@@ -1,22 +1,6 @@
 class Solution {
     
-    private void dfs(
-        int node,
-        List<List<Integer>> adj, 
-        int[] visited,
-        Stack<Integer> stack
-    ) {
-        visited[node] = 1;
-        
-        for(int it : adj.get(node)) {
-            if(visited[it] == 0)
-                dfs(it, adj, visited, stack);
-        }
-        
-        stack.push(node);
-    }
-    
-    private void build(List<List<Integer>> adj, int V, int[][] edges) {
+    private void build(int V, int[][] edges, List<List<Integer>> adj) {
         for(int i=0;i<V;i++)
             adj.add(new ArrayList<>());
             
@@ -28,22 +12,44 @@ class Solution {
         }
     }
     
+    private ArrayList<Integer> topoSort(List<List<Integer>> adj, int V) {
+        int[] indegree = new int[V];
+        
+        for(int i=0;i<V;i++)
+            for(int it : adj.get(i))
+                indegree[it] += 1;
+                
+        Queue<Integer> queue = new LinkedList<>();
+        
+        for(int i=0;i<V;i++) {
+            if(indegree[i] == 0)
+                queue.offer(i);
+        }
+        
+        
+        ArrayList<Integer> topo = new ArrayList<>();
+        
+        while(!queue.isEmpty()) {
+            int node = queue.poll();
+            topo.add(node);
+            
+            for(int it : adj.get(node)) {
+                indegree[it] -= 1;
+                
+                if(indegree[it] == 0)
+                    queue.offer(it);
+            }
+        }
+        
+        return topo;
+    }
+    
     public ArrayList<Integer> topoSort(int V, int[][] edges) {
         // code here
         List<List<Integer>> adj = new ArrayList<>();
         
-        build(adj, V, edges);
+        build(V, edges, adj);
         
-        Stack<Integer> stack = new Stack<>();
-        int[] visited = new int[V];
-        
-        for(int i=0;i<V;i++)
-            if(visited[i] == 0)
-                dfs(i, adj, visited, stack);
-                
-        ArrayList<Integer> list = new ArrayList<>(stack);
-        Collections.reverse(list); 
-        
-        return list;
+        return topoSort(adj, V);
     }
 }
