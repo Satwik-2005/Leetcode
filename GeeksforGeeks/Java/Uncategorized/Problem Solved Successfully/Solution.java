@@ -1,62 +1,42 @@
+
+
  class Solution {
-     public int countWithout(int n, int d) {
-         if (n == 0) return 0;
-
-         String s = String.valueOf(n);
-         int len = s.length();
-
-         long[] power = new long[len + 1];
-         power[0] = 1;
-
-         for (int i = 1; i <= len; i++) {
-             power[i] = power[i - 1] * 9;
+     public int minThrows(int n, int[] lad, int[] sn) {
+         // code here
+         HashMap<Integer,Integer> ladd=new HashMap<>();
+         HashMap<Integer,Integer> snake=new HashMap<>();
+         for(int i=0;i<lad.length;i+=2){
+             ladd.put(lad[i],lad[i+1]);
+         }
+         for(int i=0;i<sn.length;i+=2){
+             snake.put(sn[i],sn[i+1]);
          }
 
-         long ans = 0;
+         int dp[]=new int[n*n+2];
+         Arrays.fill(dp,Integer.MAX_VALUE);
+         dp[1]=0;
 
-         // Numbers with fewer digits
-         for (int digits = 1; digits < len; digits++) {
-             if (d == 0) {
-                 ans += 9 * power[digits - 1];
-             } else {
-                 ans += 8 * power[digits - 1];
-             }
-         }
 
-         // Numbers with same number of digits
-         for (int i = 0; i < len; i++) {
-             int cur = s.charAt(i) - '0';
-             int remaining = len - i - 1;
+         Queue<Integer>q=new LinkedList<>();
+         q.add(1);
 
-             int choices = 0;
+         while(!q.isEmpty()){
+             int curr=q.remove();
 
-             if (i == 0) {
-                 // First digit: 1 to cur-1
-                 choices = cur - 1;
+             for(int mv=1;mv<7;mv++){
+                 int nj=curr+mv;
+                 if(nj>n*n) continue;
+                 if(ladd.containsKey(nj)){
+                     nj=ladd.get(nj);
+                 }else if(snake.containsKey(nj)) nj=snake.get(nj);
 
-                 if (d != 0 && d < cur) {
-                     choices--;
+                 if(dp[nj]>dp[curr]+1){
+                     dp[nj]=dp[curr]+1;
+                     q.add(nj);
                  }
-             } else {
-                 // Other digits: 0 to cur-1
-                 choices = cur;
 
-                 if (d < cur) {
-                     choices--;
-                 }
-             }
-
-             ans += (long) choices * power[remaining];
-
-             // If current digit is d, n itself and all further numbers
-             // following this prefix are invalid.
-             if (cur == d) {
-                 return (int) ans;
              }
          }
-
-         // n itself does not contain d
-         return (int) (ans + 1);
+         return dp[n*n]==Integer.MAX_VALUE ? -1 : dp[n*n];
      }
  }
-
