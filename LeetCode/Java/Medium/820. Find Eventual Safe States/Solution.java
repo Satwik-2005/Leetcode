@@ -1,47 +1,59 @@
-import java.util.*;
-
 class Solution {
 
-    static void adjacencyList(int[][] graph, int V, List<List<Integer>> adj, int[] inDegree) {
-        for (int i = 0; i < V; i++)
+    private void build(List<List<Integer>> adj, int[][] edges, int V) {
+        for(int i=0;i<V;i++)
             adj.add(new ArrayList<>());
 
-        for (int i = 0; i < V; i++) {
-            for (int element : graph[i]) {
-                adj.get(element).add(i); 
-                inDegree[i]++;           
+        for(int u = 0; u < V; u++) {
+            for(int v : edges[u]) {
+                adj.get(v).add(u);
             }
         }
     }
 
+    private void findIndegree(int V, int[] indegree, List<List<Integer>> adj) {
+        for(int i=0;i<V;i++) {
+            for(int it : adj.get(i))
+                indegree[it] += 1;
+        }
+    }
+
+    private void queueAdding(int[] indegree, Queue<Integer> queue) {
+        int V = indegree.length;
+
+        for(int i=0;i<V;i++)
+            if(indegree[i] == 0)
+                queue.offer(i);
+    }
+
     public List<Integer> eventualSafeNodes(int[][] graph) {
         int V = graph.length;
-
         List<List<Integer>> adj = new ArrayList<>();
-        int[] inDegree = new int[V];
 
-        adjacencyList(graph, V, adj, inDegree);
+        build(adj, graph, V);
 
+        int[] indegree = new int[V];
         Queue<Integer> queue = new LinkedList<>();
-        List<Integer> safeNodes = new ArrayList<>();
 
-        for (int i = 0; i < V; i++) {
-            if (inDegree[i] == 0)
-                queue.offer(i);
-        }
+        findIndegree(V, indegree, adj);
+        queueAdding(indegree, queue);
 
-        while (!queue.isEmpty()) {
+        List<Integer> topo = new ArrayList<>();
+
+        while(!queue.isEmpty()) {
             int node = queue.poll();
-            safeNodes.add(node);
+            topo.add(node);
 
-            for (int element : adj.get(node)) {
-                inDegree[element]--;
-                if (inDegree[element] == 0)
-                    queue.offer(element);
+            for(int it : adj.get(node)) {
+                indegree[it] -= 1;
+
+                if(indegree[it] == 0)
+                    queue.offer(it);
             }
         }
 
-        Collections.sort(safeNodes);
-        return safeNodes;
+        Collections.sort(topo);
+
+        return topo;
     }
 }
