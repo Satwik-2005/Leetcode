@@ -8,8 +8,8 @@
 Depth-First Search, Breadth-First Search, Graph Theory, Topological Sort, Kosaraju's Algorithm, Tarjan's SCC Algorithm
 
 ### 🚀 Performance
-- **Runtime:** 27 ms
-- **Memory:** 62 MB
+- **Runtime:** N/A
+- **Memory:** N/A
 
 ---
 
