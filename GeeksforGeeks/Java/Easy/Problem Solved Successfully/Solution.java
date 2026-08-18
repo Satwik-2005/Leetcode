@@ -1,57 +1,64 @@
 class Solution {
-    ArrayList<Integer> largestSquare(int[][] mat, int[][] queries, int k) {
-        int n = mat.length;
-        int m = mat[0].length;
-        
-        // Build 2D prefix sum matrix
-        int[][] pref = new int[n + 1][m + 1];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                pref[i + 1][j + 1] = mat[i][j] + pref[i][j + 1] + pref[i + 1][j] - pref[i][j];
+    public String compress(String s) {
+        int n = s.length();
+
+        int[] z = new int[n];
+        int l = 0, r = 0;
+
+        for (int i = 1; i < n; i++) {
+            if (i <= r) {
+                z[i] = Math.min(r - i + 1, z[i - l]);
+            }
+
+            while (i + z[i] < n &&
+                   s.charAt(z[i]) == s.charAt(i + z[i])) {
+                z[i]++;
+            }
+
+            if (i + z[i] - 1 > r) {
+                l = i;
+                r = i + z[i] - 1;
             }
         }
-        
-        // Helper to get sum of rectangle
-        java.util.function.BiFunction<int[], int[], Integer> getSum = (range1, range2) -> {
-            int r1 = range1[0], c1 = range1[1];
-            int r2 = range2[0], c2 = range2[1];
-            return pref[r2 + 1][c2 + 1] - pref[r1][c2 + 1] - pref[r2 + 1][c1] + pref[r1][c1];
-        };
-        
-        ArrayList<Integer> ans = new ArrayList<>();
-        
-        for (int[] q : queries) {
-            int r = q[0];
-            int c = q[1];
-            
-            // If center itself exceeds k
-            if (mat[r][c] > k) {
-                ans.add(-1);
+
+        int[] dp = new int[n + 1];
+        dp[n] = 0;
+
+        for (int i = n - 1; i >= 1; i--) {
+            dp[i] = 1 + dp[i + 1];
+
+            if (2 * i <= n && z[i] >= i) {
+                dp[i] = Math.min(dp[i], 1 + dp[2 * i]);
+            }
+        }
+
+        StringBuilder ans = new StringBuilder();
+
+        int i = 0;
+
+        while (i < n) {
+
+            if (i == 0) {
+                ans.append(s.charAt(0));
+                i = 1;
                 continue;
             }
-            
-            int maxD = Math.min(Math.min(r, n - 1 - r), Math.min(c, m - 1 - c));
-            int low = 0, high = maxD;
-            int bestD = 0;
-            
-            while (low <= high) {
-                int mid = (low + high) / 2;
-                int onesCount = getSum.apply(
-                    new int[]{r - mid, c - mid},
-                    new int[]{r + mid, c + mid}
-                );
-                
-                if (onesCount <= k) {
-                    bestD = mid;
-                    low = mid + 1;
-                } else {
-                    high = mid - 1;
-                }
+
+            boolean canStar = false;
+
+            if (2 * i <= n && z[i] >= i) {
+                canStar = (dp[i] == 1 + dp[2 * i]);
             }
-            
-            ans.add(2 * bestD + 1);
+
+            if (canStar) {
+                ans.append('*');
+                i = 2 * i;
+            } else {
+                ans.append(s.charAt(i));
+                i++;
+            }
         }
-        
-        return ans;
+
+        return ans.toString();
     }
 }
