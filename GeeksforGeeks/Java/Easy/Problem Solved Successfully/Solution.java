@@ -1,64 +1,119 @@
+// /* Structure of Binary Tree Node
+// class Node {
+//     int data;
+//     Node left;
+//     Node right;
+
+//     Node(int val) {
+//         data = val;
+//         left = right = null;
+//     }
+// } */
+
+// class Solution {
+//     public int numberOfTurns(Node root, int p, int q) {
+//         // code here
+        
+//     }
+// }
+
+
 class Solution {
-    public String compress(String s) {
-        int n = s.length();
 
-        int[] z = new int[n];
-        int l = 0, r = 0;
+	enum Directions {
+		LEFT, RIGHT
+	}
 
-        for (int i = 1; i < n; i++) {
-            if (i <= r) {
-                z[i] = Math.min(r - i + 1, z[i - l]);
-            }
+	private Node findLCA(Node root, int x, int y) {
+		if (root == null) {
+			return null;
+		}
 
-            while (i + z[i] < n &&
-                   s.charAt(z[i]) == s.charAt(i + z[i])) {
-                z[i]++;
-            }
+		if (root.data == x || root.data == y) {
+			return root;
+		}
 
-            if (i + z[i] - 1 > r) {
-                l = i;
-                r = i + z[i] - 1;
-            }
-        }
+		Node leftLCA = findLCA(root.left, x, y);
+		Node rightLCA = findLCA(root.right, x, y);
 
-        int[] dp = new int[n + 1];
-        dp[n] = 0;
+		if (leftLCA != null && rightLCA != null) {
+			return root;
+		}
 
-        for (int i = n - 1; i >= 1; i--) {
-            dp[i] = 1 + dp[i + 1];
+		return leftLCA != null ? leftLCA : rightLCA;
+	}
 
-            if (2 * i <= n && z[i] >= i) {
-                dp[i] = Math.min(dp[i], 1 + dp[2 * i]);
-            }
-        }
+	private int findTurns(Node root, int key, Directions prevDirection) {
 
-        StringBuilder ans = new StringBuilder();
+		if (root == null) {
+			return - 1;
+		}
 
-        int i = 0;
+		if (root.data == key) {
+			return 0;
+		}
 
-        while (i < n) {
+		if (prevDirection == null) {
+			int leftTurns = findTurns(root.left, key, Directions.LEFT);
+			int rightTurns = findTurns(root.right, key, Directions.RIGHT);
 
-            if (i == 0) {
-                ans.append(s.charAt(0));
-                i = 1;
-                continue;
-            }
+			if (leftTurns != -1) {
+				return leftTurns;
+			}
+			else if (rightTurns != -1) {
+				return rightTurns;
+			}
+			else {
+				return -1;
+			}
+		}
+		else if (prevDirection == Directions.LEFT) {
+			int leftTurns = findTurns(root.left, key, prevDirection);
+			int rightTurns = findTurns(root.right, key, Directions.RIGHT);
 
-            boolean canStar = false;
+			if (leftTurns != -1) {
+				return leftTurns;
+			}
+			else if (rightTurns != -1) {
+				return 1 + rightTurns;
+			}
+			else {
+				return -1;
+			}
+		}
+		else {
+			int leftTurns = findTurns(root.left, key, Directions.LEFT);
+			int rightTurns = findTurns(root.right, key, prevDirection);
 
-            if (2 * i <= n && z[i] >= i) {
-                canStar = (dp[i] == 1 + dp[2 * i]);
-            }
+			if (leftTurns != -1) {
+				return 1 + leftTurns;
+			}
+			else if (rightTurns != -1) {
+				return rightTurns;
+			}
+			else {
+				return -1;
+			}
+		}
 
-            if (canStar) {
-                ans.append('*');
-                i = 2 * i;
-            } else {
-                ans.append(s.charAt(i));
-                i++;
-            }
-        }
+	}
 
-        return ans.toString();
-    }
+	public int numberOfTurns(Node root, int p, int q) {
+
+		// Find LCA of the binary tree
+		Node lca = findLCA(root, p, q);
+
+		//System.out.println("LCA = " + lca.data);
+
+		// Calculate turns
+		int pTurns = findTurns(lca, p, null);
+		int qTurns = findTurns(lca, q, null);
+
+		int totalTurns = pTurns + qTurns;
+
+		if(lca.data != p && lca.data != q) totalTurns += 1;
+
+		return (totalTurns == 0 ? -1 : totalTurns);
+
+	}
 }
