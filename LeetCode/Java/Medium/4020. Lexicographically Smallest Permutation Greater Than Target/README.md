@@ -9,7 +9,7 @@ Hash Table, String, Greedy, Counting, Enumeration
 
 ### 🚀 Performance
 - **Runtime:** 10 ms
-- **Memory:** 47.1 MB
+- **Memory:** 46.9 MB
 
 ---
 
