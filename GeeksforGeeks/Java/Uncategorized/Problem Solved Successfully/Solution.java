@@ -1,45 +1,21 @@
 // class Solution {
-//     public int maxArea(int[][] mat) {
+//     public int minCost(int[][] mat) {
 //         // code here
         
 //     }
 // }
 
 
-// ----> java solution
-
 class Solution {
-    public int maxArea(int[][] mat) {
-        int n = mat.length;
-        int m = mat[0].length;
-
-        int[] height = new int[m];
-        int maxArea = 0;
-
-        for (int i = 0; i < n; i++) {
-
-            // Build histogram heights for this row
-            for (int j = 0; j < m; j++) {
-                if (mat[i][j] == 1) {
-                    height[j]++;
-                } else {
-                    height[j] = 0;
-                }
-            }
-
-            // Column swaps allow us to arrange heights in any order.
-            // Sort heights in descending order.
-            int[] sorted = height.clone();
-            java.util.Arrays.sort(sorted);
-
-            // Use the largest k heights to make a rectangle.
-            for (int k = 1; k <= m; k++) {
-                int h = sorted[m - k];
-                int area = h * k;
-                maxArea = Math.max(maxArea, area);
-            }
+    public int minCost(int[][] mat) {
+        // code here
+        int l=mat.length;
+        int[][] dp=new int[l+1][3];
+        for(int i=0;i<l;i++){
+            dp[i+1][0]=mat[i][0]+Math.min(dp[i][1],dp[i][2]);
+            dp[i+1][1]=mat[i][1]+Math.min(dp[i][0],dp[i][2]);
+            dp[i+1][2]=mat[i][2]+Math.min(dp[i][0],dp[i][1]);
         }
-
-        return maxArea;
+        return Math.min(dp[l][0],Math.min(dp[l][1],dp[l][2]));
     }
 }
