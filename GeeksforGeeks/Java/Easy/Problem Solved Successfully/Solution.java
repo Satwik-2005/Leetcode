@@ -1,119 +1,67 @@
-// /* Structure of Binary Tree Node
-// class Node {
-//     int data;
-//     Node left;
-//     Node right;
-
-//     Node(int val) {
-//         data = val;
-//         left = right = null;
-//     }
-// } */
-
-// class Solution {
-//     public int numberOfTurns(Node root, int p, int q) {
-//         // code here
-        
-//     }
-// }
-
-
 class Solution {
+    private int timer = 0;
 
-	enum Directions {
-		LEFT, RIGHT
-	}
+    public void dfs(int node, int parent, boolean[] vis, int[] tin, int[] low, ArrayList<ArrayList<Integer>> bridges, ArrayList<ArrayList<Integer>> adj) {
+        vis[node] = true;
+        tin[node] = timer;
+        low[node] = timer;
+        timer++;
 
-	private Node findLCA(Node root, int x, int y) {
-		if (root == null) {
-			return null;
-		}
+        for (Integer neighbor : adj.get(node)) {
 
-		if (root.data == x || root.data == y) {
-			return root;
-		}
+            if (neighbor == parent) {
+                continue;
+            }
 
-		Node leftLCA = findLCA(root.left, x, y);
-		Node rightLCA = findLCA(root.right, x, y);
+            if (!vis[neighbor]) {
 
-		if (leftLCA != null && rightLCA != null) {
-			return root;
-		}
+                dfs(neighbor, node, vis, tin, low, bridges, adj);
 
-		return leftLCA != null ? leftLCA : rightLCA;
-	}
+                low[node] = Math.min(low[node], low[neighbor]);
 
-	private int findTurns(Node root, int key, Directions prevDirection) {
+                if (low[neighbor] > tin[node]) {
+                    if (node < neighbor) {
+                        bridges.add(new ArrayList<>(Arrays.asList(node, neighbor)));
+                    } else {
+                        bridges.add(new ArrayList<>(Arrays.asList(neighbor, node)));
+                    }
+                }
 
-		if (root == null) {
-			return - 1;
-		}
+            } else {
 
-		if (root.data == key) {
-			return 0;
-		}
+                low[node] = Math.min(low[node], low[neighbor]);
 
-		if (prevDirection == null) {
-			int leftTurns = findTurns(root.left, key, Directions.LEFT);
-			int rightTurns = findTurns(root.right, key, Directions.RIGHT);
+            }
 
-			if (leftTurns != -1) {
-				return leftTurns;
-			}
-			else if (rightTurns != -1) {
-				return rightTurns;
-			}
-			else {
-				return -1;
-			}
-		}
-		else if (prevDirection == Directions.LEFT) {
-			int leftTurns = findTurns(root.left, key, prevDirection);
-			int rightTurns = findTurns(root.right, key, Directions.RIGHT);
+        }
+    }
 
-			if (leftTurns != -1) {
-				return leftTurns;
-			}
-			else if (rightTurns != -1) {
-				return 1 + rightTurns;
-			}
-			else {
-				return -1;
-			}
-		}
-		else {
-			int leftTurns = findTurns(root.left, key, Directions.LEFT);
-			int rightTurns = findTurns(root.right, key, prevDirection);
+    public ArrayList<ArrayList<Integer>> criticalConnections(int V, ArrayList<ArrayList<Integer>> adj) {
+        boolean[] vis = new boolean[V];
+        int[] tin = new int[V];
+        int[] low = new int[V];
 
-			if (leftTurns != -1) {
-				return 1 + leftTurns;
-			}
-			else if (rightTurns != -1) {
-				return rightTurns;
-			}
-			else {
-				return -1;
-			}
-		}
+        ArrayList<ArrayList<Integer>> bridges = new ArrayList<>();
 
-	}
+        dfs(0, -1, vis, tin, low, bridges, adj);
 
-	public int numberOfTurns(Node root, int p, int q) {
+        Collections.sort(bridges, new Comparator<ArrayList<Integer>>() {
+            @Override
+            public int compare(ArrayList<Integer> v1, ArrayList<Integer> v2) {
+                if (v1.get(0) < v2.get(0)) {
+                    return -1;
+                } else if (v1.get(0) > v2.get(0)) {
+                    return 1;
+                } else {
+                    if (v1.get(1) <= v2.get(1)) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        });
 
-		// Find LCA of the binary tree
-		Node lca = findLCA(root, p, q);
-
-		//System.out.println("LCA = " + lca.data);
-
-		// Calculate turns
-		int pTurns = findTurns(lca, p, null);
-		int qTurns = findTurns(lca, q, null);
-
-		int totalTurns = pTurns + qTurns;
-
-		if(lca.data != p && lca.data != q) totalTurns += 1;
-
-		return (totalTurns == 0 ? -1 : totalTurns);
-
-	}
+        return bridges;
+    }
 }
