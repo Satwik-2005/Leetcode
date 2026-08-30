@@ -1,38 +1,26 @@
 // class Solution {
-//     public int countSubsequences(String s, int n) {
+//     public ArrayList<Integer> getMarks(int[] l, int[] r, int[] rank) {
 //         // code here
         
 //     }
 // }
 
 
+
 class Solution {
-    public int countSubsequences(String s, int n) {
-        final long MOD = 1_000_000_007L;
-
-        long[] dp = new long[n];
-
-        for (char ch : s.toCharArray()) {
-            int d = ch - '0';
-
-            long[] next = dp.clone();
-
-            // Start a new subsequence containing only this digit
-            int rem = d % n;
-            next[rem] = (next[rem] + 1) % MOD;
-
-            // Append this digit to every existing subsequence
-            for (int r = 0; r < n; r++) {
-                if (dp[r] != 0) {
-                    int newRem = (r * 10 + d) % n;
-
-                    next[newRem] = (next[newRem] + dp[r]) % MOD;
-                }
+    public ArrayList<Integer> getMarks(int[] l, int[] r, int[] rank) {
+        // code here
+        ArrayList<Integer> ans=new ArrayList<>();
+        int c=0,idx=0;
+        for(int i:rank){
+            while((c+r[idx]-l[idx]+1)<i){
+                c+=r[idx]-l[idx]+1;
+                idx++;
             }
-
-            dp = next;
+            ans.add(l[idx]+(i-c-1));
+            c=0;
+            idx=0;
         }
-
-        return (int) dp[0];
+        return ans;
     }
 }
