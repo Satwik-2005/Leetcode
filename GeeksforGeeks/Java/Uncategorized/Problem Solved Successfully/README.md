@@ -1,6 +1,6 @@
 # 📝 Problem Solved Successfully (GeeksforGeeks)
 
-🔗 [Problem Link](https://www.geeksforgeeks.org/problems/unoccupied-computers-1646661078/1)
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/modify-array-to-maximize-sum-of-adjacent-differences1729/1)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Uncategorized-lightgrey) ![Language](https://img.shields.io/badge/Language-Java-blue)
 
