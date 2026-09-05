@@ -1,28 +1,57 @@
 class Solution {
-    public int maxFruits(ArrayList<Integer> arr, int m) {
-        // code here
-        int n =arr.size();
-        if(n==0 || m<=0)
+
+    public int longestSubseq(int[] arr) {
+
+        if (arr == null || arr.length == 0) {
+
             return 0;
 
-        if(m>=n){
-            int tot=0;
-            for(int x:arr)
-                tot+=x;
-            return tot;
         }
-        int windowsum=0;
-        for(int i=0;i<m;i++)
-            windowsum+=arr.get(i);
 
-        int maxsum=windowsum;
-        for(int i=1;i<n;i++){
-            int addindex=(i+m-1)%n;
-            int removeindex=i-1;
-            windowsum+=arr.get(addindex);
-            windowsum-=arr.get(removeindex);
-            maxsum=Math.max(maxsum,windowsum);
+
+
+        // Map to store the maximum length of a valid subsequence ending with a specific number
+
+        Map<Integer, Integer> dp = new HashMap<>();
+
+        int maxLength = 0;
+
+
+
+        for (int num : arr) {
+
+            // Check lengths of subsequences ending in (num - 1) and (num + 1)
+
+            int lenFromLess = dp.getOrDefault(num - 1, 0);
+
+            int lenFromMore = dp.getOrDefault(num + 1, 0);
+
+
+
+            // The current number can extend either of those subsequences
+
+            int currentLength = Math.max(lenFromLess, lenFromMore) + 1;
+
+
+
+            // Update the map for the current number with the maximum possible length
+
+            dp.put(num, Math.max(dp.getOrDefault(num, 0), currentLength));
+
+
+
+            // Track the overall maximum length found so far
+
+            maxLength = Math.max(maxLength, currentLength);
+
         }
-        return maxsum;
+
+
+
+        return maxLength;
+
     }
+
+
+
 }
