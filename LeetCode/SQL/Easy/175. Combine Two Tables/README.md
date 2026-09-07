@@ -1,6 +1,6 @@
 # 📝 175. Combine Two Tables (LeetCode)
 
-🔗 [Problem Link](https://leetcode.com/problems/combine-two-tables/?envType=problem-list-v2&envId=database)
+🔗 [Problem Link](https://leetcode.com/problems/combine-two-tables/)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Language](https://img.shields.io/badge/Language-SQL-blue)
 
@@ -8,8 +8,8 @@
 Database
 
 ### 🚀 Performance
-- **Runtime:** N/A
-- **Memory:** N/A
+- **Runtime:** 459 ms
+- **Memory:** 0B
 
 ---
 
