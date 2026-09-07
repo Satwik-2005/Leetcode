@@ -1,6 +1,6 @@
 # 📝 178. Rank Scores (LeetCode)
 
-🔗 [Problem Link](https://leetcode.com/problems/rank-scores/?envType=problem-list-v2&envId=database)
+🔗 [Problem Link](https://leetcode.com/problems/rank-scores/)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Medium-orange) ![Language](https://img.shields.io/badge/Language-SQL-blue)
 
@@ -8,8 +8,8 @@
 Database
 
 ### 🚀 Performance
-- **Runtime:** N/A
-- **Memory:** N/A
+- **Runtime:** 417 ms
+- **Memory:** 0B
 
 ---
 
