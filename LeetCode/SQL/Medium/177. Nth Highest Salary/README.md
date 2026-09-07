@@ -1,6 +1,6 @@
 # 📝 177. Nth Highest Salary (LeetCode)
 
-🔗 [Problem Link](https://leetcode.com/problems/nth-highest-salary/?envType=problem-list-v2&envId=database)
+🔗 [Problem Link](https://leetcode.com/problems/nth-highest-salary/)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Medium-orange) ![Language](https://img.shields.io/badge/Language-SQL-blue)
 
@@ -8,8 +8,8 @@
 Database
 
 ### 🚀 Performance
-- **Runtime:** N/A
-- **Memory:** N/A
+- **Runtime:** 440 ms
+- **Memory:** 0B
 
 ---
 
