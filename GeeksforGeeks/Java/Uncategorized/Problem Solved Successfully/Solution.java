@@ -1,17 +1,26 @@
 class Solution {
-    public int pairCount(int x, int y) {
-        // code here
-        int ans=0,b=x*y,a=1;
-        while(a<=b){
-            int g=gcd(a,b);
-            if(g==x && (a*b)/g==y) ans+=a==b?1:2;
-            a++;
-            b=(x*y)/a;
+    public int sameMod(int[] arr) {
+        int max = arr[0];
+        HashSet<Integer> set = new HashSet<>();
+        for(int i=0;i<arr.length;i++) {
+            max = Math.max(max,arr[i]);
+            set.add(arr[i]);
         }
-        return ans;
-    }
-    public int gcd(int a,int b){
-        if(b==0) return a;
-        return gcd(b,a%b);
+        if(set.size()==1) return -1;
+        int c = 0;
+        for(int k=1;k<=max;k++) {
+            boolean f = true;
+            int rem = arr[0]%k;
+            for(int i=1;i<arr.length;i++) {
+                if(arr[i]%k!=rem) {
+                    f = false;
+                    break;
+                }
+            }
+            if(f) {
+                c++;
+            }
+        }
+        return c;
     }
 }
