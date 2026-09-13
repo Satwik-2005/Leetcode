@@ -1,54 +1,52 @@
 class Solution {
-    public int maxProduct(int[] arr, int k) {
-        int n = arr.length;
-        
-        Arrays.sort(arr);
 
-        if (k == n) {
-            long prod = 1;
-            for (int x : arr) prod *= x;
-            return (int) prod;
-        }
+    public int partyHouse(ArrayList<ArrayList<Integer>> adj) {
+        int n = adj.size();
 
-        if (arr[n - 1] <= 0 && k % 2 != 0) {
-            long prod = 1;
+        // Find one endpoint of the diameter
+        int[] first = bfs(adj, 0);
+        int farthestNode = first[0];
 
-            for (int i = n - 1; i >= n - k; i--) {
-                prod *= arr[i];
-            }
+        // Find the diameter
+        int[] second = bfs(adj, farthestNode);
+        int diameter = second[1];
 
-            return (int) prod;
-        }
-
-        int left = 0;
-        int right = n - 1;
-        long maxProd = 1;
-
-        if (k % 2 != 0) {
-            maxProd *= arr[right];
-            right--;
-            k--;
-        }
-
-        while (k > 0) {
-            long leftPair = (long) arr[left] * arr[left + 1];
-            long rightPair = (long) arr[right] * arr[right - 1];
-
-            if (leftPair > rightPair) {
-                maxProd *= leftPair;
-                left += 2;
-            } else {
-                maxProd *= rightPair;
-                right -= 2;
-
-            }
-
-            k -= 2;
-
-        }
-
-        return (int) maxProd;
-
+        // Minimum possible maximum distance
+        return (diameter + 1) / 2;
     }
 
+    private int[] bfs(ArrayList<ArrayList<Integer>> adj, int start) {
+        int n = adj.size();
+        boolean[] visited = new boolean[n];
+        int[] dist = new int[n];
+
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        visited[start] = true;
+
+        int farthestNode = start;
+        int maxDist = 0;
+
+        while (!q.isEmpty()) {
+            int node = q.poll();
+
+            for (int next : adj.get(node)) {
+                // Convert house number (1-based) to index (0-based)
+                next--;
+
+                if (!visited[next]) {
+                    visited[next] = true;
+                    dist[next] = dist[node] + 1;
+                    q.offer(next);
+
+                    if (dist[next] > maxDist) {
+                        maxDist = dist[next];
+                        farthestNode = next;
+                    }
+                }
+            }
+        }
+
+        return new int[]{farthestNode, maxDist};
+    }
 }
