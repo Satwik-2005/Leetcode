@@ -1,57 +1,38 @@
+import java.util.*;
+
 class Solution {
 
-    public int longestSubseq(int[] arr) {
+    void collect(Node node, int depth, ArrayList<Integer> leaves) {
+        if (node == null) return;
 
-        if (arr == null || arr.length == 0) {
-
-            return 0;
-
+        // Leaf node
+        if (node.left == null && node.right == null) {
+            leaves.add(depth);
+            return;
         }
 
-
-
-        // Map to store the maximum length of a valid subsequence ending with a specific number
-
-        Map<Integer, Integer> dp = new HashMap<>();
-
-        int maxLength = 0;
-
-
-
-        for (int num : arr) {
-
-            // Check lengths of subsequences ending in (num - 1) and (num + 1)
-
-            int lenFromLess = dp.getOrDefault(num - 1, 0);
-
-            int lenFromMore = dp.getOrDefault(num + 1, 0);
-
-
-
-            // The current number can extend either of those subsequences
-
-            int currentLength = Math.max(lenFromLess, lenFromMore) + 1;
-
-
-
-            // Update the map for the current number with the maximum possible length
-
-            dp.put(num, Math.max(dp.getOrDefault(num, 0), currentLength));
-
-
-
-            // Track the overall maximum length found so far
-
-            maxLength = Math.max(maxLength, currentLength);
-
-        }
-
-
-
-        return maxLength;
-
+        collect(node.left, depth + 1, leaves);
+        collect(node.right, depth + 1, leaves);
     }
 
+    public int getCount(Node root, int k) {
+        ArrayList<Integer> leaves = new ArrayList<>();
 
+        // Start depth from 1
+        collect(root, 1, leaves);
 
+        // Sort leaf depths
+        Collections.sort(leaves);
+
+        int count = 0;
+
+        for (int cost : leaves) {
+            if (cost > k) break;
+
+            k -= cost;
+            count++;
+        }
+
+        return count;
+    }
 }

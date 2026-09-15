@@ -1,6 +1,6 @@
 # 📝 Problem Solved Successfully (GeeksforGeeks)
 
-🔗 [Problem Link](https://www.geeksforgeeks.org/problems/longest-sub-sequence-such-that-difference-between-adjacents-is-one2558/1)
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/leaf-under-budget/1)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Language](https://img.shields.io/badge/Language-Java-blue)
 
