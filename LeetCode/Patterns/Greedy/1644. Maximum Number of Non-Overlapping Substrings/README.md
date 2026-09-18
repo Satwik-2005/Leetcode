@@ -8,8 +8,8 @@
 Hash Table, String, Greedy, Sorting
 
 ### 🚀 Performance
-- **Runtime:** N/A
-- **Memory:** N/A
+- **Runtime:** 53 ms
+- **Memory:** 172.4 MB
 
 ---
 
