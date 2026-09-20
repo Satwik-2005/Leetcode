@@ -1,39 +1,55 @@
 class Solution {
-    public int findGreaterValIdx(ArrayList<Integer> firstHalf , int val){
-        int left = 0;
-        int right = firstHalf.size() - 1;
-        int idx = -1;
-        while(left <= right){
-            int mid = left + (right - left) / 2;
-            
-            if(firstHalf.get(mid) >= val){
-                idx = mid;
-                left = mid + 1;
-            } else{
-                right = mid - 1;
+    public int largestSubsquare(char mat[][]) {
+        int n = mat.length;
+
+        int[][] right = new int[n][n];
+        int[][] down = new int[n][n];
+
+        // Count consecutive X to the right and downward
+        for (int i = n - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+
+                if (mat[i][j] == 'X') {
+
+                    right[i][j] = 1;
+                    down[i][j] = 1;
+
+                    if (j + 1 < n)
+                        right[i][j] += right[i][j + 1];
+
+                    if (i + 1 < n)
+                        down[i][j] += down[i + 1][j];
+                }
             }
         }
-        return idx;
-    }
-    public int dominantPairs(int[] arr) {
-        // Code here
-        ArrayList<Integer> firstHalf = new ArrayList<>();
 
-        int n = arr.length;
-        for(int i = 0 ; i < n/2 ; i++){
-            firstHalf.add(arr[i]);
-        }
-        Collections.sort(firstHalf , Collections.reverseOrder());
+        int ans = 0;
 
-        int dominantPairCnt = 0;
+        // Try every cell as top-left corner
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
 
-        for(int j = n/2 ; j < n ; j++){
+                int size = Math.min(right[i][j], down[i][j]);
 
-            int idx = findGreaterValIdx(firstHalf , 5*arr[j]);
-            if(idx != -1){
-                dominantPairCnt += (idx - 0 + 1);
+                // Try largest possible square first
+                while (size > ans) {
+
+                    int bottom = i + size - 1;
+                    int rightCol = j + size - 1;
+
+                    // Check bottom side and right side
+                    if (right[bottom][j] >= size &&
+                        down[i][rightCol] >= size) {
+
+                        ans = size;
+                        break;
+                    }
+
+                    size--;
+                }
             }
         }
-        return dominantPairCnt;
+
+        return ans;
     }
 }
