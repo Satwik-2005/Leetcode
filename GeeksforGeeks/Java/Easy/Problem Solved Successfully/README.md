@@ -1,6 +1,6 @@
 # 📝 Problem Solved Successfully (GeeksforGeeks)
 
-🔗 [Problem Link](https://www.geeksforgeeks.org/problems/leaf-under-budget/1)
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/check-if-all-levels-of-two-trees-are-anagrams-or-not/1)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Easy-brightgreen) ![Language](https://img.shields.io/badge/Language-Java-blue)
 
