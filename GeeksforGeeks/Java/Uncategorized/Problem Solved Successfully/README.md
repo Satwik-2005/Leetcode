@@ -1,6 +1,6 @@
 # 📝 Problem Solved Successfully (GeeksforGeeks)
 
-🔗 [Problem Link](https://www.geeksforgeeks.org/problems/largest-subsquare-surrounded-by-x0558/1)
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/find-largest-word-in-dictionary2430/1)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Uncategorized-lightgrey) ![Language](https://img.shields.io/badge/Language-Java-blue)
 

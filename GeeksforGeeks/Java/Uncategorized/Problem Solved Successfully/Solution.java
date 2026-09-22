@@ -1,55 +1,67 @@
 class Solution {
-    public int largestSubsquare(char mat[][]) {
-        int n = mat.length;
+    public String findLongestWord(String s, List<String> d) {
 
-        int[][] right = new int[n][n];
-        int[][] down = new int[n][n];
+        int n = s.length();
 
-        // Count consecutive X to the right and downward
-        for (int i = n - 1; i >= 0; i--) {
-            for (int j = n - 1; j >= 0; j--) {
+        // vec[i][c] = next position of character c after/at position i
+        int[][] vec = new int[n][26];
 
-                if (mat[i][j] == 'X') {
-
-                    right[i][j] = 1;
-                    down[i][j] = 1;
-
-                    if (j + 1 < n)
-                        right[i][j] += right[i][j + 1];
-
-                    if (i + 1 < n)
-                        down[i][j] += down[i + 1][j];
-                }
-            }
-        }
-
-        int ans = 0;
-
-        // Try every cell as top-left corner
+        // Initialize all positions with -1
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+            Arrays.fill(vec[i], -1);
+        }
 
-                int size = Math.min(right[i][j], down[i][j]);
+        int[] next = new int[26];
+        Arrays.fill(next, -1);
 
-                // Try largest possible square first
-                while (size > ans) {
+        next[s.charAt(n - 1) - 'a'] = n - 1;
+        vec[n - 1] = next.clone();
 
-                    int bottom = i + size - 1;
-                    int rightCol = j + size - 1;
+        Map<Character, Integer> mp = new HashMap<>();
+        mp.put(s.charAt(n - 1), n - 1);
 
-                    // Check bottom side and right side
-                    if (right[bottom][j] >= size &&
-                        down[i][rightCol] >= size) {
+        for (int i = n - 2; i >= 0; i--) {
+            next[s.charAt(i + 1) - 'a'] = i + 1;
+            vec[i] = next.clone();
 
-                        ans = size;
-                        break;
-                    }
+            mp.put(s.charAt(i), i);
+        }
 
-                    size--;
+        List<String> ans = new ArrayList<>();
+        int maxi = 0;
+
+        for (String word : d) {
+
+            if (!mp.containsKey(word.charAt(0))) {
+                continue;
+            }
+
+            int pos = mp.get(word.charAt(0));
+            int j = 1;
+
+            for (; j < word.length(); j++) {
+
+                pos = vec[pos][word.charAt(j) - 'a'];
+
+                if (pos == -1) {
+                    break;
                 }
+            }
+
+            if (j == word.length()) {
+                ans.add(word);
+                maxi = Math.max(maxi, word.length());
             }
         }
 
-        return ans;
+        Collections.sort(ans);
+
+        for (String word : ans) {
+            if (word.length() == maxi) {
+                return word;
+            }
+        }
+
+        return "";
     }
 }
