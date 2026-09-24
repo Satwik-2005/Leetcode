@@ -1,67 +1,82 @@
 class Solution {
-    public String findLongestWord(String s, List<String> d) {
+    public int maxStackHeight(int[] r, int[] h) {
+        // code here
+        int n = r.length;
 
-        int n = s.length();
+              int[][] discs = new int[n][2];
 
-        // vec[i][c] = next position of character c after/at position i
-        int[][] vec = new int[n][26];
+              for (int i = 0; i < n; i++) {
+                  discs[i][0] = r[i];
+                  discs[i][1] = h[i];
+              }
 
-        // Initialize all positions with -1
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(vec[i], -1);
-        }
+              // Sort by radius
+              Arrays.sort(discs, (a, b) -> Integer.compare(a[0], b[0]));
 
-        int[] next = new int[26];
-        Arrays.fill(next, -1);
+              // h[i] <= 1000
+              int[] bit = new int[1002];
 
-        next[s.charAt(n - 1) - 'a'] = n - 1;
-        vec[n - 1] = next.clone();
+              int answer = 0;
 
-        Map<Character, Integer> mp = new HashMap<>();
-        mp.put(s.charAt(n - 1), n - 1);
+              int i = 0;
 
-        for (int i = n - 2; i >= 0; i--) {
-            next[s.charAt(i + 1) - 'a'] = i + 1;
-            vec[i] = next.clone();
+              while (i < n) {
+                  int j = i;
 
-            mp.put(s.charAt(i), i);
-        }
+                  // Find all discs having the same radius
+                  while (j < n && discs[j][0] == discs[i][0]) {
+                      j++;
+                  }
 
-        List<String> ans = new ArrayList<>();
-        int maxi = 0;
+                  /*
+                   * Calculate DP values first.
+                   * Do NOT update BIT yet, because discs
+                   * having the same radius cannot stack on each other.
+                   */
+                  int[] dp = new int[j - i];
 
-        for (String word : d) {
+                  for (int k = i; k < j; k++) {
+                      int height = discs[k][1];
 
-            if (!mp.containsKey(word.charAt(0))) {
-                continue;
-            }
+                      // Maximum stack height for height strictly smaller
+                      int best = query(bit, height - 1);
 
-            int pos = mp.get(word.charAt(0));
-            int j = 1;
+                      dp[k - i] = best + height;
 
-            for (; j < word.length(); j++) {
+                      answer = Math.max(answer, dp[k - i]);
+                  }
 
-                pos = vec[pos][word.charAt(j) - 'a'];
+                  // Now update BIT after processing the complete radius group
+                  for (int k = i; k < j; k++) {
+                      int height = discs[k][1];
 
-                if (pos == -1) {
-                    break;
-                }
-            }
+                      update(bit, height, dp[k - i]);
+                  }
 
-            if (j == word.length()) {
-                ans.add(word);
-                maxi = Math.max(maxi, word.length());
-            }
-        }
+                  i = j;
+              }
 
-        Collections.sort(ans);
+              return answer;
+          }
 
-        for (String word : ans) {
-            if (word.length() == maxi) {
-                return word;
-            }
-        }
+          // Returns maximum value for heights <= index
+          private int query(int[] bit, int index) {
+              int result = 0;
 
-        return "";
+              while (index > 0) {
+                  result = Math.max(result, bit[index]);
+                  index -= index & -index;
+              }
+
+              return result;
+          }
+
+          // Store maximum value at given height
+          private void update(int[] bit, int index, int value) {
+              while (index < bit.length) {
+                  bit[index] = Math.max(bit[index], value);
+                  index += index & -index;
+              }
     }
 }
+
