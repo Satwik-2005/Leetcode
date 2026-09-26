@@ -1,25 +1,17 @@
 class Solution {
     public String kthDistinct(String[] arr, int k) {
-        Map<String, Integer> map = new LinkedHashMap<>();
-        int n = arr.length;
-
-        for(int i=0;i<n;i++) {
-            String str = arr[i];
-            map.put(str, map.getOrDefault(str, 0) + 1);
+      HashMap <String,Integer> map = new HashMap <> ();
+      for(int i = 0; i<arr.length;i++){
+        map.put(arr[i],map.getOrDefault(arr[i],0)+1);
+      }
+      for(int j = 0;j<arr.length;j++){
+        if(map.get(arr[j])==1){
+            if(k==1){
+                return arr[j];
+            }
+            k--;
         }
-
-        for(Map.Entry<String, Integer> mp : map.entrySet()) {
-            System.out.println(mp.getKey() + " -> " +  mp.getValue());
-
-            int value = mp.getValue();
-
-            if(value == 1  &&  k == 1)
-                return mp.getKey();
-
-            else if(value == 1  &&  k > 1)
-                k -= 1;
-        }
-
-        return "";
+      }
+      return "";
     }
 }
