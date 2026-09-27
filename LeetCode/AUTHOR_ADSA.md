@@ -80,7 +80,7 @@ Track your progress on the Curated 100hrs Advanced DSA interview preparation lis
 - [ ] Remove All Adjacent Duplicates In String
 - [ ] Remove All Adjacent Duplicates in String II
 - [ ] Remove All Occurrences of a Substring
-- [x] [Reverse Substrings Between Each Pair of Parentheses](./Java/Medium/1190. Reverse Substrings Between Each Pair of Parentheses/)
+- [x] [Reverse Substrings Between Each Pair of Parentheses](./Java/Medium/1298. Reverse Substrings Between Each Pair of Parentheses/)
 
 ### 📂 Module  2.4: Expression Evaluation & Par
 - [ ] Evaluate Reverse Polish Notation
