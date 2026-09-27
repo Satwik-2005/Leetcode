@@ -15,62 +15,55 @@
  */
 class Solution {
 
-    private TreeNode findLeftMaximum(TreeNode root) {
+    private TreeNode leftMaximum(TreeNode root) {
         if(root.right == null)
             return root;
 
-        return findLeftMaximum(root.right);
+        return leftMaximum(root.right);
     }
 
-    private TreeNode deletionNode(TreeNode root) {
-        if(root.right == null)
-            return root.left;
-
-        else if(root.left == null)
+    private TreeNode delete(TreeNode root) {
+        if(root.left == null)
             return root.right;
+
+        else if(root.right == null)
+            return root.left;
 
         else {
             TreeNode rightChild = root.right;
-            TreeNode leftMax = findLeftMaximum(root.left);
-            leftMax.right = rightChild;
-
+            TreeNode leftMaximum = leftMaximum(root.left);
+            leftMaximum.right = rightChild;
             return root.left;
         }
     }
 
     public TreeNode deleteNode(TreeNode root, int key) {
+        TreeNode prev = root;
+
         if(root == null)
-            return null;
+            return root;
 
         if(root.val == key)
-            return deletionNode(root);
+            return delete(root);
 
-        TreeNode current = root;
-
-        while(current != null) {
-            int val = current.val;
-
-            if(val > key) {
-                if(current.left != null  &&   current.left.val == key) {
-                    current.left = deletionNode(current.left);
-                    break;
-                }
+        while(root != null) {
+            if(root.val > key) {
+                if(root.left != null  &&  root.left.val == key)
+                    root.left = delete(root.left);
 
                 else
-                    current = current.left;
+                    root = root.left;
             }
 
             else {
-                if(current.right != null  &&  current.right.val == key) {
-                    current.right = deletionNode(current.right);
-                    break;
-                }
+                if(root.right != null  &&  root.right.val == key)
+                    root.right = delete(root.right);
 
-                else
-                    current = current.right;
+                else 
+                    root = root.right;
             }
         }
 
-        return root;
+        return prev;
     }
 }
