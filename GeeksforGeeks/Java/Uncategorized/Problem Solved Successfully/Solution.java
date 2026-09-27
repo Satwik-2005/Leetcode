@@ -1,147 +1,141 @@
+import java.util.*;
+
 class Solution {
 
+    public int longestPath(String s, int[][] edges) {
+        int n = s.length();
 
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
 
-    static class Box {
-
-        int h, w, l;
-
-
-
-        Box(int h, int w, int l) {
-
-            this.h = h;
-
-            this.w = w;
-
-            this.l = l;
-
+        for (int[] e : edges) {
+            int u = e[0] - 1;
+            int v = e[1] - 1;
+            adj.get(u).add(v);
+            adj.get(v).add(u);
         }
 
+        Result red = process('R', s, adj);
+        Result blue = process('B', s, adj);
+
+        int bestMix = 0;
+
+        for (int[] e : edges) {
+            int u = e[0] - 1;
+            int v = e[1] - 1;
+
+            if (s.charAt(u) == 'R' && s.charAt(v) == 'B') {
+                bestMix = Math.max(bestMix, red.far[u] + blue.far[v] + 2);
+            } else if (s.charAt(u) == 'B' && s.charAt(v) == 'R') {
+                bestMix = Math.max(bestMix, red.far[v] + blue.far[u] + 2);
+            }
+        }
+
+        return Math.max(Math.max(red.diameter, blue.diameter), bestMix);
     }
 
+    static class Result {
+        int[] far;
+        int diameter;
 
-
-    public int maxHeight(int[] height, int[] width, int[] length) {
-
-        int n = height.length;
-
-
-
-        List<Box> boxes = new ArrayList<>();
-
-
-
-        // Generate all 3 rotations.
-
-        for (int i = 0; i < n; i++) {
-
-            addBox(boxes, height[i], width[i], length[i]);
-
-            addBox(boxes, width[i], height[i], length[i]);
-
-            addBox(boxes, length[i], height[i], width[i]);
-
+        Result(int[] far, int diameter) {
+            this.far = far;
+            this.diameter = diameter;
         }
-
-
-
-        // Sort base dimensions so w <= l.
-
-        // Then use DFS with memoization.
-
-        Map<String, Integer> memo = new HashMap<>();
-
-
-
-        int ans = 0;
-
-
-
-        // Any rotation can be the bottom box.
-
-        for (Box b : boxes) {
-
-            ans = Math.max(ans, b.h + dfs(b.w, b.l, boxes, memo));
-
-        }
-
-
-
-        return ans;
-
     }
 
+    private Result process(char col, String s, List<List<Integer>> adj) {
+        int n = s.length();
+        int[] far = new int[n];
+        boolean[] seen = new boolean[n];
+        int diameterNodes = 0;
 
+        for (int src = 0; src < n; src++) {
+            if (seen[src] || s.charAt(src) != col) continue;
 
-    static void addBox(List<Box> boxes, int h, int w, int l) {
+            List<Integer> comp = new ArrayList<>();
+            Queue<Integer> q = new LinkedList<>();
+            q.add(src);
+            seen[src] = true;
 
-        if (w > l) {
+            while (!q.isEmpty()) {
+                int u = q.poll();
+                comp.add(u);
 
-            int temp = w;
-
-            w = l;
-
-            l = temp;
-
-        }
-
-
-
-        boxes.add(new Box(h, w, l));
-
-    }
-
-
-
-    static int dfs(int baseW, int baseL,
-
-                   List<Box> boxes,
-
-                   Map<String, Integer> memo) {
-
-
-
-        String key = baseW + "," + baseL;
-
-
-
-        if (memo.containsKey(key)) {
-
-            return memo.get(key);
-
-        }
-
-
-
-        int max = 0;
-
-
-
-        for (Box b : boxes) {
-
-            // Both base dimensions must be strictly smaller.
-
-            if (b.w < baseW && b.l < baseL) {
-
-                max = Math.max(
-
-                    max,
-
-                    b.h + dfs(b.w, b.l, boxes, memo)
-
-                );
-
+                for (int v : adj.get(u)) {
+                    if (!seen[v] && s.charAt(v) == col) {
+                        seen[v] = true;
+                        q.add(v);
+                    }
+                }
             }
 
+            int[] bfsStart = bfs(src, col, s, adj);
+            int A = bfsStart[0];
+
+            int[] bfsA = bfs(A, col, s, adj);
+            int B = bfsA[0];
+            Map<Integer, Integer> distA = getDistMap(A, col, s, adj);
+            Map<Integer, Integer> distB = getDistMap(B, col, s, adj);
+
+            int diameter = distA.getOrDefault(B, 0) + 1;
+            diameterNodes = Math.max(diameterNodes, diameter);
+
+            for (int node : comp) {
+                int d1 = distA.getOrDefault(node, 0);
+                int d2 = distB.getOrDefault(node, 0);
+                far[node] = Math.max(d1, d2);
+            }
         }
 
-
-
-        memo.put(key, max);
-
-        return max;
-
+        return new Result(far, diameterNodes);
     }
 
+    private int[] bfs(int start, char col, String s, List<List<Integer>> adj) {
+        Queue<Integer> q = new LinkedList<>();
+        Map<Integer, Integer> dist = new HashMap<>();
+
+        q.add(start);
+        dist.put(start, 0);
+
+        int farNode = start;
+
+        while (!q.isEmpty()) {
+            int u = q.poll();
+
+            for (int v : adj.get(u)) {
+                if (s.charAt(v) != col || dist.containsKey(v)) continue;
+
+                dist.put(v, dist.get(u) + 1);
+                q.add(v);
+
+                if (dist.get(v) > dist.get(farNode)) {
+                    farNode = v;
+                }
+            }
+        }
+
+        return new int[]{farNode};
+    }
+
+    private Map<Integer, Integer> getDistMap(int start, char col, String s, List<List<Integer>> adj) {
+        Queue<Integer> q = new LinkedList<>();
+        Map<Integer, Integer> dist = new HashMap<>();
+
+        q.add(start);
+        dist.put(start, 0);
+
+        while (!q.isEmpty()) {
+            int u = q.poll();
+
+            for (int v : adj.get(u)) {
+                if (s.charAt(v) != col || dist.containsKey(v)) continue;
+
+                dist.put(v, dist.get(u) + 1);
+                q.add(v);
+            }
+        }
+
+        return dist;
+    }
 }
