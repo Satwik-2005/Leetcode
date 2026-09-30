@@ -1,6 +1,6 @@
 # 📝 Problem Solved Successfully (GeeksforGeeks)
 
-🔗 [Problem Link](https://www.geeksforgeeks.org/problems/steps-by-knight5927/1)
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/paths-to-reach-origin3850/1)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Uncategorized-lightgrey) ![Language](https://img.shields.io/badge/Language-Java-blue)
 

@@ -1,36 +1,20 @@
-
 class Solution {
-    public int minStepToReachTarget(int kPos[], int tPos[], int n) {
+
+    int MOD = 1_000_000_007;
+
+    public int ways(int x, int y) {
         // code here
-        int[][] validCordinates = {{2,1},{2,-1},{-2,1},{-2,-1},{1,2},{1,-2},{-1,2},{-1,-2}};
+        int dp[][] = new int[x+2][y+2];
 
-        Queue<int[]> q = new LinkedList<>();
-        boolean[][] visited = new boolean[n][n];
+        dp[1][1] = 1;
 
-        q.offer(new int[]{kPos[0]-1,kPos[1]-1,0});//0th index--> x , 1st index --> y , 2nd index --> steps
-
-        visited[kPos[0]-1][kPos[1]-1] = true;
-
-        while(!q.isEmpty()){
-            int[] currCell = q.poll();
-            int x = currCell[0];
-            int y = currCell[1];
-            int steps = currCell[2];
-            if(x == tPos[0]-1 && y == tPos[1]-1){
-                return steps;
-            }
-
-            for(int[] vc : validCordinates){
-                int newX = x + vc[0];
-                int newY = y + vc[1];
-                int newSteps = steps + 1;
-                if(newX >= 0 && newX < n && newY >= 0 && newY < n && !visited[newX][newY]){
-                    q.offer(new int[]{newX,newY,newSteps});
-                    visited[newX][newY] = true;
-                }
+        for(int i=1; i<dp.length; i++){
+            for(int j=1; j<dp[0].length; j++){
+                if(i == 1 && j == 1) continue;
+                dp[i][j] = (dp[i][j-1] + dp[i-1][j]) % MOD;
             }
         }
 
-        return -1;
+        return dp[x+1][y+1];
     }
 }
