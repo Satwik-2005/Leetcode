@@ -1,20 +1,76 @@
+import java.util.*;
+
 class Solution {
 
-    int MOD = 1_000_000_007;
+    static ArrayList<ArrayList<Integer>> formCoils(int n) {
 
-    public int ways(int x, int y) {
-        // code here
-        int dp[][] = new int[x+2][y+2];
+        int size = 4 * n;
+        int total = size * size;
+        int required = 8 * n * n;
 
-        dp[1][1] = 1;
+        // Create matrix
+        int[][] mat = new int[size][size];
 
-        for(int i=1; i<dp.length; i++){
-            for(int j=1; j<dp[0].length; j++){
-                if(i == 1 && j == 1) continue;
-                dp[i][j] = (dp[i][j-1] + dp[i-1][j]) % MOD;
+        int value = 1;
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                mat[i][j] = value++;
             }
         }
 
-        return dp[x+1][y+1];
+        ArrayList<Integer> coil1 = new ArrayList<>();
+
+        int top = 0;
+        int bottom = size - 1;
+        int left = 0;
+        int right = size - 2;
+
+        while (coil1.size() < required) {
+
+            // 1. Down
+            for (int i = top; i <= bottom && coil1.size() < required; i++) {
+                coil1.add(mat[i][left]);
+            }
+            left++;
+
+            // 2. Right
+            for (int j = left; j <= right && coil1.size() < required; j++) {
+                coil1.add(mat[bottom][j]);
+            }
+            bottom--;
+
+            // 3. Up
+            for (int i = bottom; i > top && coil1.size() < required; i--) {
+                coil1.add(mat[i][right]);
+            }
+            right--;
+
+            // 4. Left
+            top++;
+
+            for (int j = right; j > left && coil1.size() < required; j--) {
+                coil1.add(mat[top][j]);
+            }
+
+            // Move to the next inner coil layer
+            left++;
+            bottom--;
+            right--;
+            top++;
+        }
+
+        ArrayList<Integer> coil2 = new ArrayList<>();
+
+        for (int x : coil1) {
+            coil2.add(total + 1 - x);
+        }
+
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+
+        result.add(coil1);
+        result.add(coil2);
+
+        return result;
     }
 }
