@@ -1,6 +1,6 @@
 # 📝 47. Permutations II (LeetCode)
 
-🔗 [Problem Link](https://leetcode.com/problems/permutations-ii/?envType=problem-list-v2&envId=array)
+🔗 [Problem Link](https://leetcode.com/problems/permutations-ii/)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Medium-orange) ![Language](https://img.shields.io/badge/Language-Java-blue)
 
