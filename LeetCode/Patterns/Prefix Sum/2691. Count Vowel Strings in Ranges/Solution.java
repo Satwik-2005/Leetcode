@@ -1,17 +1,15 @@
 class Solution {
 
     private void prefixArray(String[] words, int[] prefix, int n) {
-        if("aeiou".indexOf(words[0].charAt(0)) != -1  &&  "aeiou".indexOf(words[0].charAt(words[0].length() - 1)) != -1)
-            prefix[0] = 1;
+        prefix[0] = 0;
         
-        for(int i=1;i<n;i++) {
+        for(int i = 0; i < n; i++) {
             char start = words[i].charAt(0);
             char end = words[i].charAt(words[i].length() - 1);
-
-            if("aeiou".indexOf(start) != -1  &&  "aeiou".indexOf(end) != -1)
-                prefix[i] = prefix[i - 1] + 1;
-            else
-                prefix[i] = prefix[i - 1];
+            
+            boolean isVowelString = "aeiou".indexOf(start) != -1  &&  "aeiou".indexOf(end) != -1;
+            
+            prefix[i + 1] = prefix[i] + (isVowelString ? 1 : 0);
         }
     }
 
@@ -19,20 +17,16 @@ class Solution {
         int n = words.length;
         int index = 0;
 
-        int[] prefix = new int[n];
+        int[] prefix = new int[n + 1];   // sized n+1 now
         int[] output = new int[queries.length];
         
         prefixArray(words, prefix, n);
-
-        for(int element : prefix)
-            System.out.println(element);
 
         for(int[] query : queries) {
             int initial = query[0];
             int fin = query[1];
 
-            int before = (initial == 0) ? 0 : prefix[initial - 1];
-            output[index++] = prefix[fin] - before;
+            output[index++] = prefix[fin + 1] - prefix[initial];
         }
 
         return output;
