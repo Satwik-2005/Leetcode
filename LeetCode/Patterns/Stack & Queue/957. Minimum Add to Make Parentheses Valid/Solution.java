@@ -1,16 +1,16 @@
 class Solution {
     public int minAddToMakeValid(String s) {
-        int openNeeded = 0;    // unmatched '(' seen so far
-        int closeNeeded = 0;   // unmatched ')' that need a '(' inserted before them
+        int openNeeded = 0;   
+        int closeNeeded = 0;  
         
         for(char ch : s.toCharArray()) {
             if(ch == '(') {
                 openNeeded += 1;
-            } else { // ch == ')'
+            } else { 
                 if(openNeeded > 0)
-                    openNeeded -= 1;   // this ')' matches a previously unmatched '('
+                    openNeeded -= 1;
                 else
-                    closeNeeded += 1;  // no '(' available to match — this ')' is unmatched
+                    closeNeeded += 1;
             }
         }
         
