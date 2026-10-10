@@ -1,53 +1,20 @@
 class Solution {
-
-    public ArrayList<ArrayList<Integer>> socialNetwork(int[] arr) {
-
+    public boolean balancePan(int a, int b) {
         // code here
+        while (b > 0) {
+                    int r = b % a;
 
-        int n = arr.length + 1;
-
-        int[][] dist = new int[n + 1][n + 1];
-
-        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-
-        for (int i = 2; i <= n; i++) {
-
-            int friend = arr[i - 2];
-
-            dist[i][friend] = 1;
-
-            for (int j = 1; j < friend; j++) {
-
-                if (dist[friend][j] > 0) {
-
-                    dist[i][j] = dist[friend][j] + 1;
-
+                    if (r == 0) {
+                        b = (int)Math.floor(b / a);
+                    } else if (r == 1) {
+                        b = (int)Math.floor((b - 1) / a);
+                    } else if (r == a - 1) {
+                        b = (int)Math.floor((b + 1) / a);
+                    } else {
+                        return false;
+                    }
                 }
 
-            }
-
-            for (int j = 1; j < i; j++) {
-
-                if (dist[i][j] > 0) {
-
-                    ArrayList<Integer> tuple = new ArrayList<>();
-
-                    tuple.add(i);
-
-                    tuple.add(j);
-
-                    tuple.add(dist[i][j]);
-
-                    result.add(tuple);
-
-                }
-
-            }
-
-        }
-
-        return result;
-
+                return true;
     }
-
 }
