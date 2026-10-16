@@ -2,11 +2,11 @@ class Solution {
 
     private int[] largestAndSecond(int[] nums, int n) {
         int largest = nums[0];
-        int secondLargest = -1;
+        int secondLargest = -(int) (1e8);
         int smallest = nums[0];
 
         for(int i=1;i<n;i++) {
-            if(nums[i] > largest) {
+            if(nums[i] >= largest) {
                 secondLargest = largest;
                 largest = nums[i];
             }
@@ -28,6 +28,8 @@ class Solution {
         int largest = arr[0];
         int secondLargest = arr[1];
         int smallest = arr[2];
+
+        System.out.println(smallest + " " + secondLargest + " " + largest);
 
         return largest + secondLargest - smallest;
     }
