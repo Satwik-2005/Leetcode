@@ -6,7 +6,7 @@ class Solution {
         int smallest = nums[0];
 
         for(int i=1;i<n;i++) {
-            if(nums[i] > largest) {
+            if(nums[i] >= largest) {
                 secondLargest = largest;
                 largest = nums[i];
             }
