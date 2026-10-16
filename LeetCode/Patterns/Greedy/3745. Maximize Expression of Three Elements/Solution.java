@@ -2,7 +2,7 @@ class Solution {
 
     private int[] largestAndSecond(int[] nums, int n) {
         int largest = nums[0];
-        int secondLargest = -1;
+        int secondLargest = -(int) (1e8);
         int smallest = nums[0];
 
         for(int i=1;i<n;i++) {
