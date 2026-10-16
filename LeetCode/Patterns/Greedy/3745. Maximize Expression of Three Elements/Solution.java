@@ -29,6 +29,8 @@ class Solution {
         int secondLargest = arr[1];
         int smallest = arr[2];
 
+        Syste
+
         return largest + secondLargest - smallest;
     }
 }
