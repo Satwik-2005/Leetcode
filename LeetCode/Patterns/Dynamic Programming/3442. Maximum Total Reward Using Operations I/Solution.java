@@ -30,9 +30,9 @@ class Solution {
         Arrays.sort(rewardValues);
 
         int n = rewardValues.length;
-        int max = sum(rewardValues);
+        int max = rewardValues[n - 1];
 
-        int[][] dp = new int[n][max];
+        int[][] dp = new int[n][2 * max];
 
         for(int[] row : dp)
             Arrays.fill(row, -1);
