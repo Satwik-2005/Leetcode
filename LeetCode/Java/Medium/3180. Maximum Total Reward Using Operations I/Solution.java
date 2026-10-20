@@ -33,6 +33,6 @@ class Solution {
         for(int[] row : dp)
             Arrays.fill(row, -1);
 
-        return solve(0, 0, rewardValues);
+        return solve(0, 0, rewardValues, );
     }
 }

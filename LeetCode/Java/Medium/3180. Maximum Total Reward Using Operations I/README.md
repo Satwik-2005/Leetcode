@@ -1,6 +1,6 @@
 # 📝 3180. Maximum Total Reward Using Operations I (LeetCode)
 
-🔗 [Problem Link](https://leetcode.com/problems/maximum-total-reward-using-operations-i)
+🔗 [Problem Link](https://leetcode.com/problems/maximum-total-reward-using-operations-i/)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Medium-orange) ![Language](https://img.shields.io/badge/Language-Java-blue)
 
