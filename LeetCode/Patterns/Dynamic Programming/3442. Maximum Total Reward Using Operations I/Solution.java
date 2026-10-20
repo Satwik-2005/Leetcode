@@ -1,15 +1,5 @@
 class Solution {
 
-    private int sum(int[] rewardValues) {
-        int n = rewardValues.length;
-        int sum = 0;
-
-        for(int i=0;i<n;i++) 
-            sum += rewardValues[i];
-
-        return sum;
-    }
-
     private int solve(int index, int sum, int[] arr, int[][] dp) {
         if(index == arr.length)
             return sum;
