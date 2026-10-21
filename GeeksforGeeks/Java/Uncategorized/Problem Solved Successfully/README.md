@@ -1,6 +1,6 @@
 # 📝 Problem Solved Successfully (GeeksforGeeks)
 
-🔗 [Problem Link](https://www.geeksforgeeks.org/problems/shortest-path-from-1-to-n0156/1)
+🔗 [Problem Link](https://www.geeksforgeeks.org/problems/smallest-sum-contiguous-subarray/1)
 
 ![Difficulty](https://img.shields.io/badge/Difficulty-Uncategorized-lightgrey) ![Language](https://img.shields.io/badge/Language-Java-blue)
 

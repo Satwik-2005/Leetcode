@@ -1,11 +1,11 @@
 class Solution {
-    public int minimumStep(int n) {
-        // code here
-        int cnt = 0 ;
-       while(n>2){
-           cnt+=n%3+1 ;
-           n/=3 ;
-       }
-       return cnt+n-1 ;
+    public int minSubarraySum(int[] arr) {
+        int curr = arr[0];
+        int ans = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            curr = Math.min(arr[i], curr + arr[i]);
+            ans = Math.min(ans, curr);
+        }
+        return ans;
     }
 }
