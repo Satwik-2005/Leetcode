@@ -8,8 +8,8 @@
 Array, Hash Table, Matrix
 
 ### 🚀 Performance
-- **Runtime:** N/A
-- **Memory:** N/A
+- **Runtime:** 2 ms
+- **Memory:** 45.8 MB
 
 ---
 
@@ -31,7 +31,7 @@ Determine if a  `9 x 9`  Sudoku board is valid. Only the filled cells need to
 	
 - Only the filled cells need to be validated according to the mentioned rules.
 
-OriginalJava **Example 1:**
+**Example 1:**
 
  ![image](https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Sudoku-by-L2G-20050714.svg/250px-Sudoku-by-L2G-20050714.svg.png) 
 
