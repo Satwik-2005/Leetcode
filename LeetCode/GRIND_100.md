@@ -3,7 +3,7 @@
 Track your progress on the Grind 100 coding interview preparation list.
 
 ## Progress
-- **Completed:** 19 / 100 (19.0%)
+- **Completed:** 20 / 100 (20.0%)
 
 ---
 
@@ -28,7 +28,7 @@ Track your progress on the Grind 100 coding interview preparation list.
 - [ ] Sliding Window Maximum
 - [ ] Longest Substring Without Repeating Characters
 - [ ] Find All Anagrams in a String
-- [ ] Minimum Window Substring
+- [x] [Minimum Window Substring](./Java/Hard/76. Minimum Window Substring/)
 
 ### 📂 Hash Map & String
 - [ ] Group Anagrams
