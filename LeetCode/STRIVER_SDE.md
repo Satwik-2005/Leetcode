@@ -3,7 +3,7 @@
 Track your progress on the Striver's SDE Sheet top interview problems.
 
 ## Progress
-- **Completed:** 13 / 76 (17.1%)
+- **Completed:** 14 / 76 (18.4%)
 
 ---
 
@@ -67,7 +67,7 @@ Track your progress on the Striver's SDE Sheet top interview problems.
 - [ ] Next Greater Element II
 - [ ] Largest Rectangle in Histogram
 - [x] [Sliding Window Maximum](./Java/Hard/239. Sliding Window Maximum/)
-- [ ] Min Stack
+- [x] [Min Stack](./Java/Medium/155. Min Stack/)
 - [ ] Rotting Oranges
 - [ ] Daily Temperatures
 
