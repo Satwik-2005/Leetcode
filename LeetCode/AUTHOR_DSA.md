@@ -3,7 +3,7 @@
 Track your progress on the Curated 100hrs DSA core interview preparation list.
 
 ## Progress
-- **Completed:** 10 / 238 (4.2%)
+- **Completed:** 11 / 238 (4.6%)
 
 ---
 
@@ -301,7 +301,7 @@ Track your progress on the Curated 100hrs DSA core interview preparation list.
 - [ ] Decode String
 - [ ] 132 Pattern
 - [ ] Next Greater Element I
-- [ ] Next Greater Element II
+- [x] [Next Greater Element II](./Java/Medium/503. Next Greater Element II/)
 - [ ] Design Browser History
 - [ ] Clumsy Factorial
 
